@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Fade-in Fade-out Image Slider</title>
+
+	<style>
+		.slideSource {
+			opacity: 1;
+			transition: opacity 1s;
+		}
+
+		.slideSource.fade {
+			opacity: 0;
+			transition: opacity 1s;
+		}
+
+		#bottom {
+			top: 0;
+			left: 0;
+			position: absolute;
+		}
+
+		#top {
+			top: 0;
+			left: 0;
+			position: absolute;
+		}
+
+		/* #top {
+			top: 10%;
+			left: 10%;
+			position: absolute;
+		} */
+
+		.GebeyaSlider {
+			position: absolute;
+			width: 50%;
+			height: 50%;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<!-- Use Div tag so that any element will get affected -->
+	<div class="GebeyaSlider">
+		<div class="slideSource" id="bottom">
+			<img id="img1" src="images/sliding_image_3.jpg">
+		</div>
+		<div class="slideSource" id="top">
+			<img id="img2" src="images/sliding_image_4.jpg">
+		</div>
+	</div>
+
+	<script type="text/javascript">
+
+		//Configuration
+		var SetCrossFadeTime = 2000; //2 Seconds
+		var SetNumberOfImages = 8; //8 Images
+		var isRandom = true;
+
+		
+
+
+
+		//Init
+		var slideSource1 = document.getElementById('bottom');
+		var slideSource2 = document.getElementById('top');
+
+		var imgObj1 = document.getElementById("img1");
+		var imgObj2 = document.getElementById("img2");
+
+		//Start the CrossFade Animation
+		setTimeout(changeTop, SetCrossFadeTime)
+		
+		//Function that take care of TOP image		
+		function changeTop() {
+			slideSource2.classList.toggle('fade');
+			setTimeout(changeBottom, SetCrossFadeTime);
+
+			if (isRandom)
+			{imgObj1.src = getRandPath();}
+			else
+			{imgObj1.src = getOrderPath();}
+		}
+
+		//Function that take care of BOTTOM image
+		function changeBottom() {
+			slideSource1.classList.toggle('fade');
+			setTimeout(changeTop, SetCrossFadeTime);
+			slideSource2.classList.toggle('fade');
+			slideSource1.classList.toggle('fade');
+
+			if (isRandom)
+			{imgObj2.src = getRandPath();}
+			else
+			{imgObj2.src = getOrderPath();}
+		}
+
+		//Function that will return random image path
+		function getRandPath() {
+			var RandNum = Math.floor(Math.random() * SetNumberOfImages) + 1;
+			return "images/sliding_image_" + RandNum + ".jpg"
+		}
+
+
+
+		//Function that will return Ordered image path
+		opacityIndex = 1;
+
+		function getOrderPath() {
+			if (opacityIndex > SetNumberOfImages) {
+				opacityIndex = 1;
+				return "images/sliding_image_" + opacityIndex + ".jpg";
+			}
+			else {
+				opacityIndex += 1;
+				return "images/sliding_image_" + (opacityIndex - 1) + ".jpg";
+			}
+		}
+
+
+	</script>
+</body>
+
+</html>
